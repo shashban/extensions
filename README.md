@@ -1,2 +1,2 @@
 # extensions
-Initial setup of project
+Initial setup of project done
