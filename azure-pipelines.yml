@@ -13,8 +13,8 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
--script: "echo $(test)"
--script: "echo $(branch_Ring0)"
+- script: "echo $(test)"
+- script: "echo $(branch_Ring0)"
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
