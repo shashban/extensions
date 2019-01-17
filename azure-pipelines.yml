@@ -5,12 +5,14 @@
 
 trigger: none
 jobs:
-- job: DeployDev  
+- job: DeployDev
+  dependsOn: new  
   variables:
     - group: Test
   steps:
   - script: "echo $(branch_Ring0)"
 - job: DeployQA 
+  dependsOn: new
   variables:
     - group: AllowedBranchesPerEnvironment
   steps:
@@ -21,6 +23,6 @@ jobs:
   #  dev.k1: test 
   #condition: eq(variables['env'], 'dev')
   steps:
-    - script: "echo $(env)"
+    - script: "echo $(env) $(dev.k1)"
     - script: "echo $($(env).k1)"
     - script: "echo $(k1)"
