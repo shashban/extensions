@@ -6,17 +6,20 @@
 trigger: none
 jobs:
 - job: DeployDev  
-
   variables:
     - group: Test
-
   steps:
   - script: "echo $(branch_Ring0)"
-
 - job: DeployQA 
-
   variables:
     - group: AllowedBranchesPerEnvironment
-
   steps:
   - script: "echo $(branch_Ring0)"
+- job: new
+  variables:
+    env: dev
+    dev.k1: test 
+  #condition: eq(variables['env'], 'dev')
+  steps:
+    - script: "echo $(env)"
+    - script: "echo $($(env).k1)"
