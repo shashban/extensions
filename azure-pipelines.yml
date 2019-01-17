@@ -16,10 +16,11 @@ jobs:
   steps:
   - script: "echo $(branch_Ring0)"
 - job: new
-  variables:
-    env: dev
-    dev.k1: test 
+  #variables:
+  #  env: dev
+  #  dev.k1: test 
   #condition: eq(variables['env'], 'dev')
   steps:
     - script: "echo $(env)"
     - script: "echo $($(env).k1)"
+    - script: "echo $(k1)"
