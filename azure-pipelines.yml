@@ -3,6 +3,7 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+trigger: none
 jobs:
 - job: DeployDev  
 
@@ -10,7 +11,7 @@ jobs:
     - group: Test
 
   steps:
-  - script: "echo $(test)"
+  - script: "echo $(branch_Ring0)"
 
 - job: DeployQA 
 
