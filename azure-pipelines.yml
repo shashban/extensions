@@ -8,8 +8,14 @@ jobs:
 
   variables:
     - group: Test
-    - group: AllowedBranchesPerEnvironment
 
   steps:
   - script: "echo $(test)"
+
+- job: DeployQA 
+
+  variables:
+    - group: AllowedBranchesPerEnvironment
+
+  steps:
   - script: "echo $(branch_Ring0)"
