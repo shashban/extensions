@@ -14,14 +14,14 @@ jobs:
 - job: DeployQA 
   dependsOn: new
   variables:
-    - group: AllowedBranchesPerEnvironment
+    - group: TestVarGroup
   steps:
-  - script: "echo $(branch_Ring0)"
+  - script: "echo $(newValue)"
 - job: new
-  #variables:
-  #  env: dev
-  #  dev.k1: test 
-  #condition: eq(variables['env'], 'dev')
+  variables:
+    env: dev
+    dev.k1: test 
+  condition: eq(variables['env'], 'dev')
   steps:
     - script: "echo $(env) $(dev.k1)"
     - script: "echo $($(env).k1)"
