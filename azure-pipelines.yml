@@ -5,24 +5,20 @@
 
 trigger: none
 jobs:
-- job: DeployDev
-  dependsOn: new  
-  variables:
-    - group: Test
+- job: Job_1
+  displayName: Agentless job
+  condition: succeeded()
+  pool: server
   steps:
-  - script: "echo $(branch_Ring0)"
-- job: DeployQA 
-  dependsOn: new
-  variables:
-    - group: TestVarGroup
+  - task: Delay@1
+    displayName: 'Delay by 1 minutes'
+    inputs:
+      delayForMinutes: 1
+- job: Phase_1
+  displayName: Phase 1
+  condition: succeeded()
+  pool:
+    vmImage: Hosted VS2017
   steps:
-  - script: "echo $(newValue)"
-- job: new
-  variables:
-    env: dev
-    dev.k1: test 
-  condition: eq(variables['env'], 'dev')
-  steps:
-    - script: "echo $(env) $(dev.k1)"
-    - script: "echo $($(env).k1)"
-    - script: "echo $(k1)"
+  - powershell:
+    displayName: 'PowerShell Script'
