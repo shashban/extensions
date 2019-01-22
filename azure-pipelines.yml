@@ -4,15 +4,7 @@ jobs:
   condition: succeeded()
   pool: server
   steps:
-  - task: tse-cloudbuild.tse-cloudbuild-tasks.BFC8BF76-E7AC-4A8C-9A55-A944A9F652FA.AgentlessCBTask@2
-    displayName: CloudBuild
-    inputs:
-      connectedServiceName: 'CloudBuild Prod'
-      buildQueue: CloudTest
-      buildRole: Buddy
-      scheduleBuildRequesterAlias: '$(Build.RequestedForId)'
-      additionalFlags: '-QTestEnableTrxLogging $(CloudBuild.Flags)  -QCoverageUploadResultsToVsts -EnableNewDynamicCoverageApi'
-      appendQFlags: true
+  - task: Delay@1
 - job: Job_1
   displayName: Docker Phase
   dependsOn: Phase_1
@@ -20,39 +12,11 @@ jobs:
   pool:
     vmImage: win1803
   steps:
-  - task: ms-vscs-artifact.build-tasks.artifactDropDownloadTask-1.artifactDropDownloadTask@0
-    displayName: 'Download ExecutionService Binaries'
-    inputs:
-      dropMetadataContainerName: DropMetadata
-      rootPaths: 'retail\amd64\App\Cheetah\ExecutionService'
-      detailedLog: false
-      usePat: false
-  - task: Docker@1
-    displayName: 'Build ExecutionService Container'
-    inputs:
-      azureSubscriptionEndpoint: 'CloudTest-PROD (f4b21ad3-cb5c-4d63-aefe-228993537db8)'
-      azureContainerRegistry: cloudtest.azurecr.io
-      dockerFile: '$(System.DefaultWorkingDirectory)\drop\retail\amd64\App\Cheetah\ExecutionService\Dockerfile'
-      imageName: 'ExecutionService:$(Build.BuildId)'
-      includeLatestTag: true
-  - task: Docker@1
-    displayName: 'Push ExecutionService Container'
-    inputs:
-      azureSubscriptionEndpoint: 'CloudTest-PROD (f4b21ad3-cb5c-4d63-aefe-228993537db8)'
-      azureContainerRegistry: cloudtest.azurecr.io
-      command: 'Push an image'
-      imageName: 'ExecutionService:$(Build.BuildId)'
+  - task: PowerShell@2
 - job: Phase_2
   displayName: CloudTest Phase
   dependsOn: Phase_1
   condition: and(succeeded(), eq(variables['CloudTest.Enabled'], 'true'))
   pool: server
   steps:
-  - task: asg-cloudtest.asg-cloudtest-servertasks.1ED2E272-8122-4964-9A8B-E1112FC306AA.CloudTestServerBuildTask@1
-    displayName: 'CloudTest on Int'
-    inputs:
-      connectedServiceName: 'CloudTest-INT'
-      cloudTestTenant: cheetah
-      testMapLocation: '[BuildRoot]\[BuildType]\[BuildArch]\Tests\FunctionalTests\TestDefinitions\TestMap.xml'
-      scheduleBuildRequesterAlias: 'cloudtest-notify'
-      parserProperties: 'UseNewExecutionWorkflow=true;worker:VsTestVersion=V150;VstsServiceType=TcmWithLogStore;VstsTestResultAttachmentUploadBehavior=Always;'
+  - task: Delay@1
