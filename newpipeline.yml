@@ -1,1 +1,25 @@
 variables:
+- group: test
+jobs:
+- job: Phase_1
+  displayName: CloudBuild Phase
+  condition: succeeded()
+  pool: server
+  steps:
+  - task: Delay@1
+- job: Job_1
+  displayName: Docker Phase
+  dependsOn: Phase_1
+  condition: succeeded()
+  pool:
+    vmImage: win1803
+  steps:
+  - task: PowerShell@2
+- job: Phase_2
+  displayName: CloudTest Phase
+  dependsOn: Phase_1
+  condition: and(succeeded(), eq(variables['CloudTest.Enabled'], 'true'))
+  pool: server
+  steps:
+  - task: Delay@1
+
