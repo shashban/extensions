@@ -5,6 +5,9 @@ jobs:
   pool: server
   steps:
   - task: Delay@1
+  - task: Delay@1
+  inputs:
+    delayForMinutes: '3'
 - job: Job_1
   displayName: Docker Phase
   dependsOn: Phase_1
